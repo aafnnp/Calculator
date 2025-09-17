@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>生成 Google Play 图片</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #f0f0f0;
+        margin: 0;
+        padding: 20px;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .image-container {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 20px 0;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      canvas {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+      .download-btn {
+        background: #ff9500;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 10px 5px;
+      }
+      .download-btn:hover {
+        background: #e6850e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Google Play 图片生成器</h1>
+
+      <div class="image-container">
+        <h2>功能横幅图 (1024x500)</h2>
+        <canvas id="featureGraphic" width="1024" height="500"></canvas>
+        <br />
+        <button class="download-btn" onclick="downloadCanvas('featureGraphic', 'feature-graphic.png')">
+          下载功能横幅图
+        </button>
+      </div>
+
+      <div class="image-container">
+        <h2>手机预览图 - 基础计算器 (1080x1920)</h2>
+        <canvas id="phoneBasic" width="1080" height="1920"></canvas>
+        <br />
+        <button class="download-btn" onclick="downloadCanvas('phoneBasic', 'phone-screenshot-basic-calculator.png')">
+          下载基础计算器
+        </button>
+      </div>
+
+      <div class="image-container">
+        <h2>手机预览图 - 科学计算器 (1080x1920)</h2>
+        <canvas id="phoneScientific" width="1080" height="1920"></canvas>
+        <br />
+        <button
+          class="download-btn"
+          onclick="downloadCanvas('phoneScientific', 'phone-screenshot-scientific-calculator.png')"
+        >
+          下载科学计算器
+        </button>
+      </div>
+
+      <div class="image-container">
+        <h2>手机预览图 - 高级功能 (1080x1920)</h2>
+        <canvas id="phoneAdvanced" width="1080" height="1920"></canvas>
+        <br />
+        <button
+          class="download-btn"
+          onclick="downloadCanvas('phoneAdvanced', 'phone-screenshot-advanced-functions.png')"
+        >
+          下载高级功能
+        </button>
+      </div>
+
+      <div class="image-container">
+        <h2>手机预览图 - 历史记录 (1080x1920)</h2>
+        <canvas id="phoneHistory" width="1080" height="1920"></canvas>
+        <br />
+        <button class="download-btn" onclick="downloadCanvas('phoneHistory', 'phone-screenshot-history-memory.png')">
+          下载历史记录
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // 下载 Canvas 为图片
+      function downloadCanvas(canvasId, filename) {
+        const canvas = document.getElementById(canvasId)
+        const link = document.createElement('a')
+        link.download = filename
+        link.href = canvas.toDataURL()
+        link.click()
+      }
+
+      // 绘制功能横幅图
+      function drawFeatureGraphic() {
+        const canvas = document.getElementById('featureGraphic')
+        const ctx = canvas.getContext('2d')
+
+        // 背景
+        ctx.fillStyle = '#000000'
+        ctx.fillRect(0, 0, 1024, 500)
+
+        // 左侧计算器界面
+        ctx.fillStyle = '#1a1a1a'
+        ctx.fillRect(50, 80, 300, 400)
+        ctx.strokeStyle = '#333333'
+        ctx.lineWidth = 2
+        ctx.strokeRect(50, 80, 300, 400)
+
+        // 显示屏
+        ctx.fillStyle = '#000000'
+        ctx.fillRect(70, 100, 260, 80)
+        ctx.fillStyle = '#999999'
+        ctx.font = '16px Arial'
+        ctx.fillText('123 + 456 =', 80, 130)
+        ctx.fillStyle = '#ffffff'
+        ctx.font = '24px Arial'
+        ctx.fillText('579', 80, 160)
+
+        // 按钮
+        drawButton(ctx, 80, 200, 50, 50, '#a6a6a6', '#000000', 'C')
+        drawButton(ctx, 140, 200, 50, 50, '#a6a6a6', '#000000', 'Sci')
+        drawButton(ctx, 200, 200, 50, 50, '#a6a6a6', '#000000', '⌫')
+        drawButton(ctx, 260, 200, 50, 50, '#ff9500', '#ffffff', '÷')
+
+        drawButton(ctx, 80, 260, 50, 50, '#333333', '#ffffff', '7')
+        drawButton(ctx, 140, 260, 50, 50, '#333333', '#ffffff', '8')
+        drawButton(ctx, 200, 260, 50, 50, '#333333', '#ffffff', '9')
+        drawButton(ctx, 260, 260, 50, 50, '#ff9500', '#ffffff', '×')
+
+        // 右侧标题
+        const gradient = ctx.createLinearGradient(450, 0, 1024, 0)
+        gradient.addColorStop(0, '#ff9500')
+        gradient.addColorStop(1, '#ff6b35')
+        ctx.fillStyle = gradient
+        ctx.font = 'bold 48px Arial'
+        ctx.fillText('Calculator', 450, 120)
+
+        ctx.fillStyle = '#ffffff'
+        ctx.font = '24px Arial'
+        ctx.fillText('Professional & Scientific', 450, 180)
+
+        ctx.font = '18px Arial'
+        ctx.fillText('• Basic & Scientific Calculations', 450, 220)
+        ctx.fillText('• Modern Dark Theme', 450, 250)
+        ctx.fillText('• History & Memory', 450, 280)
+        ctx.fillText('• Offline & Fast', 450, 310)
+      }
+
+      // 绘制手机预览图
+      function drawPhoneScreenshot(canvasId, title, expression, result, isScientific = false) {
+        const canvas = document.getElementById(canvasId)
+        const ctx = canvas.getContext('2d')
+
+        // 背景
+        ctx.fillStyle = '#000000'
+        ctx.fillRect(0, 0, 1080, 1920)
+
+        // 状态栏
+        ctx.fillStyle = '#ffffff'
+        ctx.font = '24px Arial'
+        ctx.fillText('9:41', 50, 50)
+        ctx.font = '20px Arial'
+        ctx.fillText('100%', 950, 50)
+
+        // 显示屏
+        ctx.fillStyle = '#000000'
+        ctx.fillRect(60, 120, 960, 200)
+        ctx.fillStyle = '#999999'
+        ctx.font = '32px Arial'
+        ctx.fillText(expression, 80, 180)
+        ctx.fillStyle = '#ffffff'
+        ctx.font = '72px Arial'
+        ctx.fillText(result, 80, 250)
+
+        // 按钮区域
+        if (isScientific) {
+          drawScientificButtons(ctx)
+        } else {
+          drawBasicButtons(ctx)
+        }
+
+        // 底部标题
+        ctx.fillStyle = '#ff9500'
+        ctx.font = 'bold 36px Arial'
+        ctx.textAlign = 'center'
+        ctx.fillText(title, 540, 1800)
+        ctx.textAlign = 'left'
+      }
+
+      // 绘制基础按钮
+      function drawBasicButtons(ctx) {
+        const buttons = [
+          { text: 'C', x: 60, y: 360, w: 200, h: 100, bg: '#a6a6a6', color: '#000000' },
+          { text: 'Sci', x: 280, y: 360, w: 200, h: 100, bg: '#a6a6a6', color: '#000000' },
+          { text: '⌫', x: 500, y: 360, w: 200, h: 100, bg: '#a6a6a6', color: '#000000' },
+          { text: '÷', x: 720, y: 360, w: 200, h: 100, bg: '#ff9500', color: '#ffffff' },
+          { text: '7', x: 60, y: 480, w: 200, h: 100, bg: '#333333', color: '#ffffff' },
+          { text: '8', x: 280, y: 480, w: 200, h: 100, bg: '#333333', color: '#ffffff' },
+          { text: '9', x: 500, y: 480, w: 200, h: 100, bg: '#333333', color: '#ffffff' },
+          { text: '×', x: 720, y: 480, w: 200, h: 100, bg: '#ff9500', color: '#ffffff' },
+          { text: '4', x: 60, y: 600, w: 200, h: 100, bg: '#333333', color: '#ffffff' },
+          { text: '5', x: 280, y: 600, w: 200, h: 100, bg: '#333333', color: '#ffffff' },
+          { text: '6', x: 500, y: 600, w: 200, h: 100, bg: '#333333', color: '#ffffff' },
+          { text: '−', x: 720, y: 600, w: 200, h: 100, bg: '#ff9500', color: '#ffffff' },
+          { text: '1', x: 60, y: 720, w: 200, h: 100, bg: '#333333', color: '#ffffff' },
+          { text: '2', x: 280, y: 720, w: 200, h: 100, bg: '#333333', color: '#ffffff' },
+          { text: '3', x: 500, y: 720, w: 200, h: 100, bg: '#333333', color: '#ffffff' },
+          { text: '+', x: 720, y: 720, w: 200, h: 100, bg: '#ff9500', color: '#ffffff' },
+          { text: '0', x: 60, y: 840, w: 440, h: 100, bg: '#333333', color: '#ffffff' },
+          { text: '.', x: 500, y: 840, w: 200, h: 100, bg: '#333333', color: '#ffffff' },
+          { text: '=', x: 720, y: 840, w: 200, h: 100, bg: '#ff9500', color: '#ffffff' },
+        ]
+
+        buttons.forEach((btn) => {
+          drawButton(ctx, btn.x, btn.y, btn.w, btn.h, btn.bg, btn.color, btn.text)
+        })
+      }
+
+      // 绘制科学按钮
+      function drawScientificButtons(ctx) {
+        const buttons = [
+          { text: 'sin', x: 60, y: 360, w: 180, h: 80, bg: '#4a4a4a', color: '#ffffff' },
+          { text: 'cos', x: 260, y: 360, w: 180, h: 80, bg: '#4a4a4a', color: '#ffffff' },
+          { text: 'tan', x: 460, y: 360, w: 180, h: 80, bg: '#4a4a4a', color: '#ffffff' },
+          { text: 'ln', x: 660, y: 360, w: 180, h: 80, bg: '#4a4a4a', color: '#ffffff' },
+          { text: '√', x: 60, y: 460, w: 180, h: 80, bg: '#4a4a4a', color: '#ffffff' },
+          { text: 'x²', x: 260, y: 460, w: 180, h: 80, bg: '#4a4a4a', color: '#ffffff' },
+          { text: 'x³', x: 460, y: 460, w: 180, h: 80, bg: '#4a4a4a', color: '#ffffff' },
+          { text: 'π', x: 660, y: 460, w: 180, h: 80, bg: '#4a4a4a', color: '#ffffff' },
+          { text: '7', x: 60, y: 560, w: 180, h: 80, bg: '#333333', color: '#ffffff' },
+          { text: '8', x: 260, y: 560, w: 180, h: 80, bg: '#333333', color: '#ffffff' },
+          { text: '9', x: 460, y: 560, w: 180, h: 80, bg: '#333333', color: '#ffffff' },
+          { text: '÷', x: 660, y: 560, w: 180, h: 80, bg: '#ff9500', color: '#ffffff' },
+          { text: '4', x: 60, y: 660, w: 180, h: 80, bg: '#333333', color: '#ffffff' },
+          { text: '5', x: 260, y: 660, w: 180, h: 80, bg: '#333333', color: '#ffffff' },
+          { text: '6', x: 460, y: 660, w: 180, h: 80, bg: '#333333', color: '#ffffff' },
+          { text: '×', x: 660, y: 660, w: 180, h: 80, bg: '#ff9500', color: '#ffffff' },
+          { text: '1', x: 60, y: 760, w: 180, h: 80, bg: '#333333', color: '#ffffff' },
+          { text: '2', x: 260, y: 760, w: 180, h: 80, bg: '#333333', color: '#ffffff' },
+          { text: '3', x: 460, y: 760, w: 180, h: 80, bg: '#333333', color: '#ffffff' },
+          { text: '−', x: 660, y: 760, w: 180, h: 80, bg: '#ff9500', color: '#ffffff' },
+          { text: '0', x: 60, y: 860, w: 360, h: 80, bg: '#333333', color: '#ffffff' },
+          { text: '.', x: 460, y: 860, w: 180, h: 80, bg: '#333333', color: '#ffffff' },
+          { text: '=', x: 660, y: 860, w: 180, h: 80, bg: '#ff9500', color: '#ffffff' },
+        ]
+
+        buttons.forEach((btn) => {
+          drawButton(ctx, btn.x, btn.y, btn.w, btn.h, btn.bg, btn.color, btn.text)
+        })
+      }
+
+      // 绘制按钮
+      function drawButton(ctx, x, y, w, h, bgColor, textColor, text) {
+        ctx.fillStyle = bgColor
+        ctx.fillRect(x, y, w, h)
+        ctx.fillStyle = textColor
+        ctx.font = '32px Arial'
+        ctx.textAlign = 'center'
+        ctx.fillText(text, x + w / 2, y + h / 2 + 10)
+        ctx.textAlign = 'left'
+      }
+
+      // 页面加载完成后绘制所有图片
+      window.onload = function () {
+        drawFeatureGraphic()
+        drawPhoneScreenshot('phoneBasic', 'Basic Calculator', '123 + 456 =', '579', false)
+        drawPhoneScreenshot('phoneScientific', 'Scientific Calculator', 'sin(30°) =', '0.5', true)
+        drawPhoneScreenshot('phoneAdvanced', 'Advanced Functions', '√(144) =', '12', true)
+        drawPhoneScreenshot('phoneHistory', 'History & Memory', '2^8 =', '256', true)
+      }
+    </script>
+  </body>
+</html>
