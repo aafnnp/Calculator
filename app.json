@@ -46,7 +46,7 @@
             "buildArchs": ["arm64-v8a", "x86_64"]
           },
           "ios": {
-            "deploymentTarget": "14.0"
+            "deploymentTarget": "15.1"
           }
         }
       ]
